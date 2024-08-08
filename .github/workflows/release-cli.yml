@@ -26,7 +26,7 @@ jobs:
 
       - name: Set ${{ inputs.pom-file }} project version to ${{ inputs.release-version }}
         run: |
-          mvn versions:set -DnewVersion=${{ inputs.release-version }} $POM_FILE
+          mvn versions:set -DnewVersion=${{ inputs.release-version }} -f $POM_FILE
 
       - name: Test and build jar
         run: mvn clean package -f $POM_FILE
