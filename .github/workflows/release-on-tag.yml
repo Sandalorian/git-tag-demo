@@ -1,0 +1,27 @@
+name: Create Draft Release on tag
+
+on:
+  push:
+    tags:
+        - "cli/v*.*"
+
+      
+env:
+  POM_FILE: 'cli/demo/pom.xml'
+  # Matches cli/YYYY.MM with optional patch number using -/d
+  TAG_REGEX: '^cli\/([2-9][0-9]{3})\.Q[1-4](-[0-9])?'
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check tag is correct
+        run: |
+          if [[ $GITHUB_REF_NAME =~ $TAG_REGEX ]]; then
+            echo "Tag name is valid."
+          else
+            echo "Tag name is invalid."
+            exit 1
+          fi
