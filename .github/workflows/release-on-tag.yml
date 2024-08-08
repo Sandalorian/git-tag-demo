@@ -14,8 +14,6 @@ env:
 jobs:
   tag-check:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Check tag is correct
         id: valid-tag
