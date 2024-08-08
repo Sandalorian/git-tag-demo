@@ -14,6 +14,9 @@ env:
 jobs:
   tag-check:
     runs-on: ubuntu-latest
+    outputs: 
+      release-version: ${{ github.ref_name }}
+      pom-file: ${{ env.POM_FILE }}
     steps:
       - name: Check tag is correct
         id: valid-tag
@@ -25,10 +28,11 @@ jobs:
             echo "Tag name $GITHUB_REF_NAME is invalid."
             exit 1
           fi
+
   release:
     needs: [tag-check]
     uses: ./.github/workflows/release-cli.yml
     with:
-      release-version: $GITHUB_REF_NAME
-      pom-file: $POM_FILE
+      release-version: ${{ needs.tag-check.outputs.release-version }}
+      pom-file:  ${{ needs.tag-check.outputs.pom-file }}
           
