@@ -1,0 +1,32 @@
+name: Release Cli
+
+on:
+  workflow_call:
+    inputs:
+      release-version: 
+        required: true
+        type: string
+      pom-file: 
+        required: true
+        type: string
+      
+env:
+  POM_FILE: ${{ inputs.pom-file }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set ${{ inputs.pom-file }} project version to ${{ inputs.release-version }}
+        run: |
+          mvn versions:set -DnewVersion=${{ inputs.release-version }}
+          cat $POM_FILE

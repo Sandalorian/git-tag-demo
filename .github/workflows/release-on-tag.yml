@@ -12,12 +12,14 @@ env:
   TAG_REGEX: '^cli\/v([2-9][0-9]{3})\.Q[1-4](-[0-9])?'
 
 jobs:
-  prepare-release:
+  tag-check:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Check tag is correct
+        id: valid-tag
+        continue-on-error: true
         run: |
           if [[ $GITHUB_REF_NAME =~ $TAG_REGEX ]]; then
             echo "Tag name is valid."
@@ -25,3 +27,10 @@ jobs:
             echo "Tag name $GITHUB_REF_NAME is invalid."
             exit 1
           fi
+  release:
+    needs: [tag-check]
+    uses: ./.github/workflows/release-cli.yml
+    with:
+      release-version: $GITHUB_REF_NAME
+      pom-file: $POM_FILE
+          
