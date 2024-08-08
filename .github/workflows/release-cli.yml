@@ -6,12 +6,13 @@ on:
       release-version: 
         required: true
         type: string
-      pom-file: 
+      project-folder: 
         required: true
         type: string
       
 env:
-  POM_FILE: ${{ inputs.pom-file }}
+  PROJECT_FOLDER: ${{ inputs.project-folder }}
+  POM_FILE: ${{ inputs.project-folder }}/pom.xml
 
 jobs:
   build:
@@ -24,7 +25,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set ${{ inputs.pom-file }} project version to ${{ inputs.release-version }}
+      - name: Set ${{ inputs.project-folder }} project version to ${{ inputs.release-version }}
         run: |
           mvn versions:set -DnewVersion=${{ inputs.release-version }} -f $POM_FILE
 

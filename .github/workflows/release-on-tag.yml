@@ -7,7 +7,7 @@ on:
 
       
 env:
-  POM_FILE: 'pom.xml'
+  PROJECT_FOLDER: '.'
   # Matches cli/YYYY.MM with optional patch number using -/d
   TAG_REGEX: '^cli\/v([2-9][0-9]{3})\.Q[1-4](-[0-9])?'
 
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: 
       release-version: ${{ steps.valid-tag.outputs.release-version }}
-      pom-file: ${{ env.POM_FILE }}
+      project-folder: ${{ env.PROJECT_FOLDER }}
     steps:
       - name: Check tag is correct
         id: valid-tag
@@ -38,5 +38,5 @@ jobs:
     uses: ./.github/workflows/release-cli.yml
     with:
       release-version: ${{ needs.tag-check.outputs.release-version }}
-      pom-file:  ${{ needs.tag-check.outputs.pom-file }}
+      project-folder:  ${{ needs.tag-check.outputs.project-folder }}
           
