@@ -39,4 +39,5 @@ jobs:
     with:
       release-version: ${{ needs.tag-check.outputs.release-version }}
       project-folder:  ${{ needs.tag-check.outputs.project-folder }}
+    secrets: inherit
           
