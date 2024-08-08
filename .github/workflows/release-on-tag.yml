@@ -37,6 +37,7 @@ jobs:
     needs: [tag-check]
     permissions:
       contents: write
+      issues: write
     uses: ./.github/workflows/release-cli.yml
     with:
       release-version: ${{ needs.tag-check.outputs.release-version }}
