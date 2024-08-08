@@ -25,9 +25,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set ${{ inputs.project-folder }} project version to ${{ inputs.release-version }}
+      - name: Set ${{ env.POM_FILE }} project version to ${{ inputs.release-version }}
         run: |
           mvn versions:set -DnewVersion=${{ inputs.release-version }} -f $POM_FILE
 
       - name: Test and build jar
         run: mvn clean package -f $POM_FILE
+
+      - name: Create Github Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            ${{ env.PROJECT_FOLDER }}/target/git-tag-demo*.jar
