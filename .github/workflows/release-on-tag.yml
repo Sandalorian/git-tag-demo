@@ -22,6 +22,6 @@ jobs:
           if [[ $GITHUB_REF_NAME =~ $TAG_REGEX ]]; then
             echo "Tag name is valid."
           else
-            echo "Tag name is invalid."
+            echo "Tag name $GITHUB_REF_NAME is invalid."
             exit 1
           fi
