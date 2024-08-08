@@ -32,9 +32,12 @@ jobs:
           mvn versions:set -DnewVersion=${{ inputs.release-version }} -f $POM_FILE
 
       - name: Test and build jar
+        id: test-and-build
+        continue-on-error: true
         run: mvn clean package -f $POM_FILE
 
       - name: Create Github Release
+        if: steps.test-and-build.outcome == 'success'
         uses: softprops/action-gh-release@v2
         with:
           name: Cli ${{ inputs.release-version }}
