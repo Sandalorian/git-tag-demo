@@ -15,7 +15,7 @@ jobs:
   tag-check:
     runs-on: ubuntu-latest
     outputs: 
-      release-version: ${{ github.ref_name }}
+      release-version: ${{ steps.valid-tag.outputs.release-version }}
       pom-file: ${{ env.POM_FILE }}
     steps:
       - name: Check tag is correct
@@ -23,7 +23,11 @@ jobs:
         continue-on-error: true
         run: |
           if [[ $GITHUB_REF_NAME =~ $TAG_REGEX ]]; then
-            echo "Tag name is valid."
+            echo "Tag name $GITHUB_REF_NAME is valid."
+            # extract just the version part
+            release-version=echo $GITHUB_REF_NAME | sed 's|.*/v||'
+            echo "Release version will be $release-version"
+            echo "release-version=$release-version" >> "$GITHUB_OUTPUT"
           else
             echo "Tag name $GITHUB_REF_NAME is invalid."
             exit 1
