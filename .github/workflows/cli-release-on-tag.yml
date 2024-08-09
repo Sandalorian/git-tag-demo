@@ -37,7 +37,7 @@ jobs:
     permissions:
       contents: write
       issues: write
-    uses: ./.github/workflows/release-cli.yml
+    uses: ./.github/workflows/cli-build-and-release.yml
     with:
       release-version: ${{ needs.tag-check.outputs.release-version }}
       project-folder:  ${{ needs.tag-check.outputs.project-folder }}
