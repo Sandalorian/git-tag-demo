@@ -13,6 +13,7 @@ on:
 env:
   PROJECT_FOLDER: ${{ inputs.project-folder }}
   MVN_CMD: mvn --no-transfer-progress -f ${{ inputs.project-folder }}/pom.xml
+  ARTIFACT_CONTENT: readme.md logstash
 
 jobs:
   build:
@@ -48,9 +49,8 @@ jobs:
           ARTIFACT_NAME: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.release-version }}.tgz
           JAR_LOCATION: ${{ inputs.project-folder }}/target/${{ steps.get_artifactId.outputs.artifactId }}
         run: |
-          echo "Artifact name: $ARTIFACT_NAME"
           mkdir $ARTIFACT_NAME
-          mv $JAR_LOCATION $ARTIFACT_NAME/
+          mv $ARTIFACT_CONTENT $JAR_LOCATION $ARTIFACT_NAME/
           ls -l $ARTIFACT_NAME
 
       - name: Create Github Release
