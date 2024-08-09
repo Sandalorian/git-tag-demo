@@ -36,6 +36,19 @@ jobs:
         id: test-and-build
         run: $MVN_CMD clean package
 
+      - name: get artifactId from ${{ inputs.project-folder }}/pom.xml
+        id: get_artifactId
+        run: |
+          artifactId=$($MVN_CMD help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          echo "artifactId=$artifactId" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release Artifact
+        id: release-artifact
+        env:
+          ARTIFACT_NAME: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.project-folder }}.tgz
+        run: |
+          echo "Artifact name: $ARTIFACT_NAME"
+
       - name: Create Github Release
         if: steps.test-and-build.outcome == 'success'
         uses: softprops/action-gh-release@v2
