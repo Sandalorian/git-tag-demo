@@ -54,7 +54,7 @@ jobs:
           mv $ARTIFACT_CONTENT $JAR_LOCATION $ARTIFACT_DIRECTORY/
           echo "Artifact contents: $(ls $ARTIFACT_DIRECTORY)"
           tar czvf $ARTIFACT_NAME $ARTIFACT_DIRECTORY
-          
+          echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Create Github Release
         if: steps.test-and-build.outcome == 'success'
@@ -64,7 +64,7 @@ jobs:
           generate_release_notes: true
           draft: true
           files: |
-            ${{ env.PROJECT_FOLDER }}/target/git-tag-demo*.jar
+            ${{ steps.release-artifact.outputs.artifact_name }}
 
       - name: Create Issue on Build Failure
         if: always() && failure()
