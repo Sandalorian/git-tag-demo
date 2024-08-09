@@ -47,7 +47,7 @@ jobs:
             ${{ env.PROJECT_FOLDER }}/target/git-tag-demo*.jar
 
       - name: Create Issue on Build Failure
-        if: always() && steps.test-and-build.outcome == 'failure'
+        if: always() && failure()
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
