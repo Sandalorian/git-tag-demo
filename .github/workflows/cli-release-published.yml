@@ -30,34 +30,14 @@ jobs:
           echo "::error::File does not exist: $POM_FILE"
           exit 1
         fi
-    - name: Get current project.version from ${{ steps.get-pom.outputs.pom_file }}
-      id: get-currrent-version
+    - name: Create next project version
+      id: next-project-version
+      run: | 
+        next_project_version=$(./scripts/next_version.sh)
+        echo "Next project version is: $next_version"
+        echo "version=$next_version" >> "$GITHUB_OUTPUT"
+    - name: Set ${{ steps.get-pom.outputs.pom_file }} project version to $${{ steps.next-project-version.outputs.version }}
+      env:
+        NEXT_VERSION: $${{ steps.next-project-version.outputs.version }}
       run: |
-        PROJECT_VERSION=$($MVN_CMD help:evaluate -Dexpression=project.version -q -DforceStdout -f ${{ steps.get-pom.outputs.pom_file }})
-        echo "project_version=$PROJECT_VERSION" >> "$GITHUB_OUTPUT"
-
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
-        
+        mvn versions:set -DnewVersion=$NEXT_VERSION
