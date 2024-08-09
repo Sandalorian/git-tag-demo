@@ -19,4 +19,44 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-    - name: Increment 
+    - name: Get pom.xml
+      id: get-pom
+      run: |
+        POM_FILE=$PROJECT_FOLDER/pom.xml
+        if [ -f $POM_FILE ]; then
+          echo "pom_file=$POM_FILE >> $GITHUB_OUTPUT"
+        else
+          echo "::error::File does not exist: $POM_FILE"
+          exit 1
+        fi
+    - name: Get current project.version from ${{ steps.get-pom.outputs.pom_file }}
+      id: get-currrent-version
+      run: |
+        PROJECT_VERSION=$($MVN_CMD help:evaluate -Dexpression=project.version -q -DforceStdout)
+        "project_version=$PROJECT_VERSION >> $GITHUB_OUTPUT"
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Dump job context
+      env:
+        JOB_CONTEXT: ${{ toJson(job) }}
+      run: echo "$JOB_CONTEXT"
+    - name: Dump steps context
+      env:
+        STEPS_CONTEXT: ${{ toJson(steps) }}
+      run: echo "$STEPS_CONTEXT"
+    - name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
+    - name: Dump strategy context
+      env:
+        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+      run: echo "$STRATEGY_CONTEXT"
+    - name: Dump matrix context
+      env:
+        MATRIX_CONTEXT: ${{ toJson(matrix) }}
+      run: echo "$MATRIX_CONTEXT"
+        
