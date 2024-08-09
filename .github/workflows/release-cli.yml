@@ -31,7 +31,7 @@ jobs:
 
       - name: Set ${{ env.POM_FILE }} project version to ${{ inputs.release-version }}
         run: |
-          MVN_CMD versions:set -DnewVersion=${{ inputs.release-version }}
+          $MVN_CMD versions:set -DnewVersion=${{ inputs.release-version }}
 
       - name: Test and build jar
         id: test-and-build
