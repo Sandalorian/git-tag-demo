@@ -1,0 +1,9 @@
+ARG ELK_VERSION
+FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
+
+ENV VERIFIER_VERSION=1.6.3
+
+RUN mkdir lfv && \
+    curl -LJ https://github.com/magnusbaeck/logstash-filter-verifier/releases/download/${VERIFIER_VERSION}/logstash-filter-verifier_${VERIFIER_VERSION}_linux_amd64.tar.gz | tar xvzf - -C ./lfv 
+
+ENTRYPOINT [ "/usr/share/logstash/lfv/logstash-filter-verifier", "daemon", "start", "--wait-for-state-timeout", "120s", "--no-cleanup" ]
