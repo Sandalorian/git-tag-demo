@@ -20,7 +20,6 @@ jobs:
     permissions:
       contents: write
       issues: write
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,7 +47,7 @@ jobs:
             ${{ env.PROJECT_FOLDER }}/target/git-tag-demo*.jar
 
       - name: Create Issue on Build Failure
-        if: steps.test-and-build.outcome == 'failure'
+        if: always() && steps.test-and-build.outcome == 'failure'
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
