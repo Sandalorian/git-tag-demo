@@ -12,8 +12,7 @@ on:
       
 env:
   PROJECT_FOLDER: ${{ inputs.project-folder }}
-  POM_FILE: ${{ inputs.project-folder }}/pom.xml
-  MVN_CMD: mvn --no-transfer-progress -f $POM_FILE
+  MVN_CMD: mvn --no-transfer-progress -f ${{ inputs.project-folder }}/pom.xml
 
 jobs:
   build:
@@ -29,7 +28,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set ${{ env.POM_FILE }} project version to ${{ inputs.release-version }}
+      - name: Set ${{ inputs.project-folder }}/pom.xml project version to ${{ inputs.release-version }}
         run: |
           $MVN_CMD versions:set -DnewVersion=${{ inputs.release-version }}
 

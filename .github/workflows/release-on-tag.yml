@@ -28,7 +28,7 @@ jobs:
             echo "Release version will be $RELEASE_VERSION"
             echo "release-version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           else
-            echo "Tag name $GITHUB_REF_NAME is invalid."
+            echo "::error::Tag name $GITHUB_REF_NAME is invalid."
             exit 1
           fi
 
