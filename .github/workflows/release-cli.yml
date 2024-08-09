@@ -13,6 +13,7 @@ on:
 env:
   PROJECT_FOLDER: ${{ inputs.project-folder }}
   POM_FILE: ${{ inputs.project-folder }}/pom.xml
+  MVN_CMD: mvn --no-transfer-progress -f $POM_FILE
 
 jobs:
   build:
@@ -30,11 +31,11 @@ jobs:
 
       - name: Set ${{ env.POM_FILE }} project version to ${{ inputs.release-version }}
         run: |
-          mvn versions:set -DnewVersion=${{ inputs.release-version }} -f $POM_FILE
+          MVN_CMD versions:set -DnewVersion=${{ inputs.release-version }}
 
       - name: Test and build jar
         id: test-and-build
-        run: mvn clean package -f $POM_FILE
+        run: $MVN_CMD clean package
 
       - name: Create Github Release
         if: steps.test-and-build.outcome == 'success'
@@ -69,8 +70,3 @@ jobs:
             - Workflow Path: `${{ github.workflow_ref }}`
     
             - [ ] **Task**: Review failed run, fix the issue(s), and re-run until successful.
-    
-            > This issue was created automatically by GitHub, 
-            > through `dacbd/create-issue-action@main` action
-            > and KemingHe's contribution.
-            > **DO NOT** close this issue until resolved.
