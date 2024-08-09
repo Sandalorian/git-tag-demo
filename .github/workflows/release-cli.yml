@@ -46,12 +46,15 @@ jobs:
       - name: Create Release Artifact
         id: release-artifact
         env:
+          ARTIFACT_DIRECTORY: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.release-version }}
           ARTIFACT_NAME: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.release-version }}.tgz
           JAR_LOCATION: ${{ inputs.project-folder }}/target/${{ steps.get_artifactId.outputs.artifactId }}
         run: |
-          mkdir $ARTIFACT_NAME
-          mv $ARTIFACT_CONTENT $JAR_LOCATION $ARTIFACT_NAME/
-          ls -l $ARTIFACT_NAME
+          mkdir $ARTIFACT_DIRECTORY
+          mv $ARTIFACT_CONTENT $JAR_LOCATION $ARTIFACT_DIRECTORY/
+          echo "Artifact contents: $(ls $ARTIFACT_DIRECTORY)"
+          tar czvf $ARTIFACT_NAME $ARTIFACT_DIRECTORY
+          
 
       - name: Create Github Release
         if: steps.test-and-build.outcome == 'success'
