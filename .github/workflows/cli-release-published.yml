@@ -6,6 +6,7 @@ on:
 
 env:
   PROJECT_FOLDER: '.'
+  MVN_CMD: mvn --no-transfer-progress
 
 jobs:
   prepare-next-dev-cycle:
@@ -32,7 +33,7 @@ jobs:
     - name: Get current project.version from ${{ steps.get-pom.outputs.pom_file }}
       id: get-currrent-version
       run: |
-        PROJECT_VERSION=$($MVN_CMD help:evaluate -Dexpression=project.version -q -DforceStdout)
+        PROJECT_VERSION=$($MVN_CMD help:evaluate -Dexpression=project.version -q -DforceStdout -f ${{ steps.get-pom.outputs.pom_file }})
         "project_version=$PROJECT_VERSION >> $GITHUB_OUTPUT"
 
     - name: Dump GitHub context
