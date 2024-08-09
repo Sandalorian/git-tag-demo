@@ -34,7 +34,7 @@ jobs:
       id: get-currrent-version
       run: |
         PROJECT_VERSION=$($MVN_CMD help:evaluate -Dexpression=project.version -q -DforceStdout -f ${{ steps.get-pom.outputs.pom_file }})
-        "project_version=$PROJECT_VERSION" >> "$GITHUB_OUTPUT"
+        echo "project_version=$PROJECT_VERSION" >> "$GITHUB_OUTPUT"
 
     - name: Dump GitHub context
       env:
