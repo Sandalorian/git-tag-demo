@@ -6,7 +6,6 @@ on:
 
 env:
   PROJECT_FOLDER: '.'
-  MVN_CMD: mvn --no-transfer-progress
 
 jobs:
   prepare-next-dev-cycle:
@@ -41,4 +40,8 @@ jobs:
       env:
         NEXT_VERSION: ${{ steps.next-project-version.outputs.version }}
       run: |
-        mvn versions:set -DnewVersion=$NEXT_VERSION
+        mvn --no-transfer-progress versions:set -DnewVersion=$NEXT_VERSION
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Start next development cycle
