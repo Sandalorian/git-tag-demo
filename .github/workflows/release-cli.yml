@@ -20,6 +20,7 @@ jobs:
     permissions:
       contents: write
       issues: write
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +35,6 @@ jobs:
 
       - name: Test and build jar
         id: test-and-build
-        continue-on-error: true
         run: mvn clean package -f $POM_FILE
 
       - name: Create Github Release
