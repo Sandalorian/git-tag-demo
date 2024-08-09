@@ -45,7 +45,7 @@ jobs:
       - name: Create Release Artifact
         id: release-artifact
         env:
-          ARTIFACT_NAME: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.project-folder }}.tgz
+          ARTIFACT_NAME: ${{ steps.get_artifactId.outputs.artifactId }}-${{ inputs.release-version }}.tgz
         run: |
           echo "Artifact name: $ARTIFACT_NAME"
 
