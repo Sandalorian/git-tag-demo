@@ -33,7 +33,7 @@ jobs:
     - name: Create next project version
       id: next-project-version
       run: | 
-        next_project_version=$(./scripts/next_version.sh)
+        next_version=$(./scripts/next_version.sh)
         echo "Next project version is: $next_version"
         echo "version=$next_version" >> "$GITHUB_OUTPUT"
     - name: Set ${{ steps.get-pom.outputs.pom_file }} project version to $${{ steps.next-project-version.outputs.version }}
