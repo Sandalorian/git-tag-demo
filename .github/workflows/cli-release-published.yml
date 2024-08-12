@@ -49,8 +49,10 @@ jobs:
         NEXT_VERSION: ${{ steps.next-project-version.outputs.version }}
       run: |
         mvn --no-transfer-progress versions:set -DnewVersion=$NEXT_VERSION
+    - name: debugging information
+      run: git status
 
-    # - uses: stefanzweifel/git-auto-commit-action@v5
-    #   with:
-    #     commit_message: Start next development cycle
-    #     branch: main
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Start next development cycle
+        branch: main
