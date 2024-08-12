@@ -19,7 +19,8 @@ jobs:
         fetch-depth: 0
     - name: Pull any changes
       run: |
-        git checkout -B main origin/main
+        git checkout main
+        tree . 
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
