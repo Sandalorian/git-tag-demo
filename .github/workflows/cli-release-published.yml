@@ -15,15 +15,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with: 
+        fetch-depth: 0
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
     - name: Pull any changes
       run: |
-        git checkout master
-        git pull 
-        git fetch
+        git checkout -B main origin/main
     - name: Get pom.xml
       id: get-pom
       run: |
