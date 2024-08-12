@@ -18,6 +18,7 @@ jobs:
       with: 
         fetch-depth: 1
         ref: main
+        fetch-tags: true
     - name: debugging information
       run: |
         tree . 
@@ -51,13 +52,8 @@ jobs:
         mvn --no-transfer-progress versions:set -DnewVersion=$NEXT_VERSION
     - name: debugging information
       run: git status
-    - name: Setup git
-      run: |
-        git config --global user.name "my-release-manager"
-        git config --global user.email "username@users.noreply.github.com"
-        git pull --tags
-    - name: add and commit
-      run: |
-        git --no-pager log --decorate=short --pretty=oneline -n5
-        git commit -am "Prepare next dev cycle ${{ steps.next-project-version.outputs.version }}"
-        git push
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Start next development cycle ${{ steps.next-project-version.outputs.version }}
+        branch: main
