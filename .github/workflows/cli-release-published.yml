@@ -51,8 +51,11 @@ jobs:
         mvn --no-transfer-progress versions:set -DnewVersion=$NEXT_VERSION
     - name: debugging information
       run: git status
-
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: Start next development cycle
-        branch: main
+    - name: Setup git
+      run: |
+        git config --global user.name "my-release-manager"
+        git config --global user.email "username@users.noreply.github.com"
+    - name: add and commit
+      run: |
+        git commit -am "Prepare next dev cycle ${{ steps.next-project-version.outputs.version }}"
+        git pull
