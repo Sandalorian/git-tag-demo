@@ -58,4 +58,4 @@ jobs:
     - name: add and commit
       run: |
         git commit -am "Prepare next dev cycle ${{ steps.next-project-version.outputs.version }}"
-        git pull
+        git push
