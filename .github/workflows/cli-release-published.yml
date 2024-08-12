@@ -23,6 +23,7 @@ jobs:
         tree . 
         git --no-pager log --decorate=short --pretty=oneline -n5
         git status
+        git fetch && get pull --tags
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
@@ -49,11 +50,11 @@ jobs:
         NEXT_VERSION: ${{ steps.next-project-version.outputs.version }}
       run: |
         mvn --no-transfer-progress versions:set -DnewVersion=$NEXT_VERSION
-    - name: add and commit
-      run: |
-        git config --global user.name "release-bot"
-        git config --global user.email "username@users.noreply.github.com"
-        git pull --tags
-        git --no-pager log --decorate=short --pretty=oneline -n5
-        git commit -am "Prepare next dev cycle ${{ steps.next-project-version.outputs.version }}"
-        git push
+    # - name: add and commit
+    #   run: |
+    #     git config --global user.name "release-bot"
+    #     git config --global user.email "username@users.noreply.github.com"
+    #     git pull --tags
+    #     git --no-pager log --decorate=short --pretty=oneline -n5
+    #     git commit -am "Prepare next dev cycle ${{ steps.next-project-version.outputs.version }}"
+    #     git push
