@@ -24,6 +24,7 @@ jobs:
     - name: Pull any changes
       run: |
         git pull 
+        git fetch
     - name: Get pom.xml
       id: get-pom
       run: |
@@ -38,6 +39,7 @@ jobs:
       id: next-project-version
       run: | 
         echo "Using GITHUB_REF_NAME: $GITHUB_REF_NAME"
+        ls -l *
         next_version=$(./scripts/next_version.sh $GITHUB_REF_NAME)
         echo "Next project version is: $next_version"
         echo "version=$next_version" >> "$GITHUB_OUTPUT"
