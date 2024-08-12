@@ -6,7 +6,7 @@
 
   <groupId>com.sandalorian</groupId>
   <artifactId>git-tag-demo</artifactId>
-  <version>cli/2024.Q3-67</version>
+  <version>cli/2024.Q3-68</version>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
