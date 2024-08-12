@@ -21,7 +21,7 @@ jobs:
         java-version: '17'
     - name: Pull any changes
       run: |
-        git checkout main --unshallow
+        git checkout master
         git pull 
         git fetch
     - name: Get pom.xml
