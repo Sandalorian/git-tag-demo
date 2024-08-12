@@ -16,11 +16,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with: 
-        fetch-depth: 0
+        fetch-depth: 1
         ref: main
-    - name: Pull any changes
+    - name: debugging information
       run: |
-        git checkout main
         tree . 
         git --no-pager log --decorate=short --pretty=oneline -n1
         git status
