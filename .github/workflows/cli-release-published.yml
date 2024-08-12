@@ -23,7 +23,7 @@ jobs:
         tree . 
         git --no-pager log --decorate=short --pretty=oneline -n5
         git status
-        git fetch && get pull --tags
+        git fetch && git pull --tags
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
