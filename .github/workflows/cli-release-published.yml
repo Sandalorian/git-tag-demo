@@ -40,7 +40,7 @@ jobs:
       id: next-project-version
       run: | 
         echo "Using GITHUB_REF_NAME: $GITHUB_REF_NAME"
-        next_version=$(./scripts/next_version.sh $GITHUB_REF_NAME)
+        next_version=$(./scripts/next_version.sh $GITHUB_REF_NAME)-SNAPSHOT
         echo "Next project version is: $next_version"
         echo "version=$next_version" >> "$GITHUB_OUTPUT"
     - name: Set ${{ steps.get-pom.outputs.pom_file }} project version to ${{ steps.next-project-version.outputs.version }}
